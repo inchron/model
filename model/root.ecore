@@ -1,0 +1,1217 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmi:version="2.0" name="root" nsURI="http://inchron.com/realtime/root/2.98.00" nsPrefix="root">
+  <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+    <details key="copyright" value="Copyright (c) 2017 INCHRON GmbH&#13;&#10;&#13;&#10;This program and the accompanying materials are made&#13;&#10;available under the terms of the Eclipse Public License 2.0&#13;&#10;which is available at https://www.eclipse.org/legal/epl-2.0/&#13;&#10;&#13;&#10;SPDX-License-Identifier: EPL-2.0"/>
+  </eAnnotations>
+  <eClassifiers xsi:type="ecore:EClass" name="Referrable">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="intrinsicId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" iD="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Root">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="model" eType="#//model/ContainerElement" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="settings" lowerBound="1" eType="#//settings/Settings" containment="true"/>
+  </eClassifiers>
+  <eSubpackages name="model" nsURI="http://inchron.com/realtime/root/2.98.00/model" nsPrefix="model">
+    <eClassifiers xsi:type="ecore:EClass" name="AbstractCpuModel"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ActivateProcess" eSuperTypes="#//model/ActivationAction">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1" eType="#//model/Process"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ActivationConnection" eSuperTypes="#//model/Connection">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="activators" lowerBound="1" upperBound="-1" eType="#//model/ActivationItem" eOpposite="#//model/ActivationItem/connection">
+        </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="andSemantic" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ActivationItem" eSuperTypes="#//model/CallSequenceItem">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="connection" lowerBound="1" eType="#//model/ActivationConnection" eOpposite="#//model/ActivationConnection/activators"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="activationItemDelay" eType="#//model/TimeDistribution" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ActivationAction" abstract="true">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="connection" lowerBound="1" eType="#//model/Connection" eOpposite="#//model/Connection/activations"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="offset" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0">
+        </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="period" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="1">
+        </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="activationActionDelay" eType="#//model/TimeDistribution" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="AddressRange">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="base" ordered="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="size" ordered="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="AFDXPort" eSuperTypes="#//model/ModelObject">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="direction" lowerBound="1" eType="#//model/AFDXPortDirection" defaultValueLiteral="Sender"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//model/AFDXPortType" defaultValueLiteral="Queuing"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="queueLength" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="5"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="AFDXPortDirection">
+      <eLiterals name="Sender"/>
+      <eLiterals name="Receiver" value="1"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="AFDXPortType">
+      <eLiterals name="Sampling"/>
+      <eLiterals name="Queuing" value="1"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ArincSystem" eSuperTypes="#//model/System"/>
+    <eClassifiers xsi:type="ecore:EEnum" name="BufferStrategy">
+      <eLiterals name="SlotOrder"/>
+      <eLiterals name="Priority" value="1"/>
+      <eLiterals name="FIFO" value="2"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="BusMessage" eSuperTypes="#//model/ModelObject #//model/EventChainForwarder #//model/StimulationTarget">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="fullMessages" upperBound="-1" eType="#//model/MessageData" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="events" upperBound="-1" eType="#//model/TraceEvent" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="inCallGraph" eType="#//model/CallGraph" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="outCallGraph" eType="#//model/CallGraph" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="CallGraph">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="graphEntries" upperBound="-1" eType="#//model/GraphEntryBase" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="CallSequence" eSuperTypes="#//model/GraphEntryBase">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="calls" upperBound="-1" eType="#//model/CallSequenceItem" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="CallSequenceItem" abstract="true" eSuperTypes="#//model/ModelObject">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="period" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="1"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="offset" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="CANBusMessage" eSuperTypes="#//model/BusMessage">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="format" lowerBound="1" eType="#//model/CANBusMessageFormat" defaultValueLiteral="Standard"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="canId" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="size" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="CANBusMessageFormat">
+      <eLiterals name="Standard"/>
+      <eLiterals name="Extended" value="1"/>
+      <eLiterals name="J1939_TP_BAM" value="2"/>
+      <eLiterals name="J1939_TP_P2P" value="3"/>
+      <eLiterals name="Ignore" value="4"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="GenericSystem" eSuperTypes="#//model/System">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="rtosConfig" eType="#//model/RtosConfig" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Clock" eSuperTypes="#//model/ModelObject #//model/TraceObject">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="frequency" eType="#//model/Frequency" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="period" ordered="false" eType="#//model/Time" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="drift" ordered="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="range" ordered="false" lowerBound="1" eType="#//model/Time" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="startTimeFixed" lowerBound="1" eType="#//model/Time" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="startTimeIsRandom" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="startTimeMin" lowerBound="1" eType="#//model/Time" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="startTimeMax" lowerBound="1" eType="#//model/Time" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="startValue" ordered="false" lowerBound="1" eType="#//model/Time" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="usingCpus" upperBound="-1" eType="#//model/Cpu" eOpposite="#//model/Cpu/clock"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="usingMemories" upperBound="-1" eType="#//model/memory/Memory" eOpposite="#//model/memory/Memory/clock"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="usingCounters" upperBound="-1" eType="#//model/autosar/OsCounter" eOpposite="#//model/autosar/OsCounter/clock"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="usingInterconnects" upperBound="-1" eType="#//model/memory/Interconnect" eOpposite="#//model/memory/Interconnect/clock"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="usingStimuliGenerators" upperBound="-1" eType="#//model/stimulation/StimuliGenerator" eOpposite="#//model/stimulation/StimuliGenerator/clock"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Container" eSuperTypes="#//model/ModelObject #//model/ContainerElement">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="contents" upperBound="-1" eType="#//model/ContainerElement" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ContainerElement"/>
+    <eClassifiers xsi:type="ecore:EClass" name="CompilerSettings">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="isTargetCompiler" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="isTargetCompilerOverrideValues" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="version" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="path" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="args" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Component" eSuperTypes="#//model/ModelObject">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="variables" upperBound="-1" eType="#//model/memory/DataObject" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="functions" upperBound="-1" eType="#//model/Function" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="translationUnits" upperBound="-1" eType="#//model/TranslationUnit"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Cpu" eSuperTypes="#//model/ModelObject #//model/TraceObject #//model/LoadResource">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="clock" lowerBound="1" eType="#//model/Clock" eOpposite="#//model/Clock/usingCpus"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="cores" ordered="false" lowerBound="1" upperBound="-1" eType="#//model/CpuCore" containment="true" eOpposite="#//model/CpuCore/cpu">
+        </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="cpuModel" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+        </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="reloadCpuModel" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="hypervisor" eType="#//model/HyperVisorConfig" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="interconnects" upperBound="-1" eType="#//model/memory/Interconnect" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="memories" upperBound="-1" eType="#//model/memory/Memory" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="memoryRegions" upperBound="-1" eType="#//model/MemoryRegion" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="partitions" upperBound="-1" eType="#//model/Partition" containment="true">
+        </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="peripherals" upperBound="-1" eType="#//model/Peripheral" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="CpuCore" eSuperTypes="#//model/ModelObject #//model/TraceObject #//model/LoadResource">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="prescaler" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble" defaultValueLiteral="1.0"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="bitWidth" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="32"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="connectedSlave" lowerBound="1" eType="#//model/memory/InitiatorPort" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="cpu" eType="#//model/Cpu" eOpposite="#//model/Cpu/cores"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="DataFlowConnection" eSuperTypes="#//model/Connection">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="communicationType" eType="#//model/DataFlowCommunicationType" defaultValueLiteral="EventBased"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="defaultElements" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0">
+        </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="provider" lowerBound="1" eType="#//model/VariableWriteAccess" eOpposite="#//model/VariableWriteAccess/connection">
+        </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="requesters" lowerBound="1" upperBound="-1" eType="#//model/VariableReadAccess" eOpposite="#//model/VariableReadAccess/connection"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="size" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="1"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="variable" lowerBound="1" eType="#//model/memory/DataObject">
+        </eStructuralFeatures>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="DataFlowCommunicationType">
+      <eLiterals name="EventBased" literal="EventBased"/>
+      <eLiterals name="SharedVariable" value="1"/>
+      <eLiterals name="Queuing" value="2" literal="Queuing"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Connection" abstract="true" eSuperTypes="#//model/ModelObject">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="activations" upperBound="-1" eType="#//model/ActivationAction" containment="true" eOpposite="#//model/ActivationAction/connection"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="DiscreteDistributionEntry">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="count" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBigInteger"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="execTime" ordered="false" lowerBound="1" eType="#//model/Time"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="EnforcedMigration" eSuperTypes="#//model/CallSequenceItem"/>
+    <eClassifiers xsi:type="ecore:EClass" name="EstimatorSettings">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="model" eType="#//model/AbstractCpuModel" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="optCompiler" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="optVersion" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="optLabels" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="optFlags" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="selectedOpt" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Event" eSuperTypes="#//model/ModelObject"/>
+    <eClassifiers xsi:type="ecore:EClass" name="EventChain" eSuperTypes="#//model/ModelObject #//model/TraceObject">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="instanceColors" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="EventChainConnection" eSuperTypes="#//model/ModelObject">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="connection" eType="#//model/Connection"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="from" eType="#//model/EventChainStep"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="to" eType="#//model/EventChainStep"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="EventChainForwarder">
+      </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="EventChainStrategy">
+      <eLiterals name="FirstFirst"/>
+      <eLiterals name="FirstLast" value="1"/>
+      <eLiterals name="LastLast" value="2"/>
+      <eLiterals name="MultiFirst" value="3"/>
+      <eLiterals name="MultiLast" value="4"/>
+      <eLiterals name="MultiBackwardPreceding" value="5"/>
+      <eLiterals name="MultiBackwardEarliest" value="6"/>
+      <eLiterals name="Count" value="7"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="EventChainStep" eSuperTypes="#//model/ModelObject">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="joins" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="streamed" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="forwarder" eType="#//model/EventChainForwarder"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="EventConjunctionOperatorType">
+      <eLiterals name="AND"/>
+      <eLiterals name="OR" value="1"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="EventSequenceDefinition" eSuperTypes="#//model/EventChain">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="outOfOrderReset" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="sequence" upperBound="-1" eType="#//model/TraceEventCondition" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Frequency">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat" defaultValueLiteral="1000"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="unit" lowerBound="1" eType="#//model/FrequencyUnit" defaultValueLiteral="MHz"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="FrequencyUnit">
+      <eLiterals name="Hz"/>
+      <eLiterals name="kHz" value="1"/>
+      <eLiterals name="MHz" value="2"/>
+      <eLiterals name="GHz" value="3"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Function" eSuperTypes="#//model/ModelObject #//model/TraceObject #//model/EventChainForwarder">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="callGraph" eType="#//model/CallGraph" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="FunctionCall" eSuperTypes="#//model/CallSequenceItem #//model/StimulationTarget">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="function" lowerBound="1" eType="#//model/Function">
+        </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="guards" upperBound="-1" eType="#//model/SetGuard" eOpposite="#//model/SetGuard/functionCall">
+        </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="position" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="events" upperBound="-1" eType="#//model/Event">
+        </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="eventConjunctionOperator" eType="#//model/EventConjunctionOperatorType"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="GraphEntryBase" abstract="true" eSuperTypes="#//model/ModelObject">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="triggerTokens" upperBound="-1" eType="#//model/TriggerToken"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="GeneralInfo">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="author" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="creator" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="email" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="modifiedDate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="omitCallNestingDiagram" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="omitImplicitEventChains" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="omitStackDiagram" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="projectFile" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="projectPath" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="saveDir" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="version" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="HyperVisorConfig" eSuperTypes="#//model/ModelObject">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="hyperVisorSystem" eType="#//model/System"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="vmSchedulers" upperBound="-1" eType="#//model/Scheduler" containment="true">
+        </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="virtualCores" upperBound="-1" eType="#//model/CpuCore" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="HyperVisorSystemSchedulable" eSuperTypes="#//model/Schedulable">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="virtualSystem" eType="#//model/System"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="HyperVisorVirtualCoreSchedulable" eSuperTypes="#//model/Schedulable">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="virtualCore" eType="#//model/CpuCore"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="InterruptPort">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="isrs" ordered="false" upperBound="-1" eType="#//model/Process" eOpposite="#//model/Process/triggeredBy"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="LoadResource">
+      </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="MemoryRegion" eSuperTypes="#//model/ModelObject">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="base" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong" defaultValueLiteral="0"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="file" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" defaultValueLiteral=""/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="flags" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="pages" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="pageSize" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong" defaultValueLiteral="0"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="sections" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="sharedName" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="MemoryRegionFlags">
+      <eLiterals name="Code" value="1"/>
+      <eLiterals name="Data" value="2"/>
+      <eLiterals name="IO" value="4"/>
+      <eLiterals name="Shared" value="8"/>
+      <eLiterals name="Exec" value="16"/>
+      <eLiterals name="Write" value="32"/>
+      <eLiterals name="Init" value="256"/>
+      <eLiterals name="Load" value="512"/>
+      <eLiterals name="Paged" value="1024"/>
+      <eLiterals name="Text" value="273"/>
+      <eLiterals name="Ram" value="307"/>
+      <eLiterals name="Rom" value="275"/>
+      <eLiterals name="Periph" value="36"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="MessageData" eSuperTypes="#//model/ModelObject">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="size" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Mode" eSuperTypes="#//model/ModelObject">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="modeGroup" lowerBound="1" eType="#//model/ModeGroup" eOpposite="#//model/ModeGroup/modes"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ModeGroup" eSuperTypes="#//model/ModelObject">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="modes" upperBound="-1" eType="#//model/Mode" containment="true" eOpposite="#//model/Mode/modeGroup"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="initialMode" eType="#//model/Mode"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="currentMode" eType="#//model/Mode"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Model" eSuperTypes="#//model/ModelObject #//model/ContainerElement">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="busPeripherals" upperBound="-1" eType="#//model/Peripheral" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="clocks" upperBound="-1" eType="#//model/Clock" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="cpus" upperBound="-1" eType="#//model/Cpu" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="connections" upperBound="-1" eType="#//model/Connection" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="eventChains" upperBound="-1" eType="#//model/EventChain" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="events" upperBound="-1" eType="#//model/Event" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="generalInfo" eType="#//model/GeneralInfo" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="interconnects" upperBound="-1" eType="#//model/memory/Interconnect" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="memories" upperBound="-1" eType="#//model/memory/Memory" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="peripheralPortConnections" upperBound="-1" eType="#//model/PeripheralPortConnection" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="requirements" upperBound="-1" eType="#//model/requirement/Requirement" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="stimulationScenarios" upperBound="-1" eType="#//model/stimulation/StimulationScenario" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="defaultScenario" eType="#//model/stimulation/StimulationScenario"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="systems" ordered="false" upperBound="-1" eType="#//model/System" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="traceEvents" upperBound="-1" eType="#//model/TraceEvent" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ModelEventChain" eSuperTypes="#//model/EventChain">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="steps" upperBound="-1" eType="#//model/EventChainStep" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="connections" upperBound="-1" eType="#//model/EventChainConnection" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ModelObject" abstract="true" eSuperTypes="#//Referrable">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ModeSwitch" eSuperTypes="#//model/GraphEntryBase">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="entries" upperBound="-1" eType="#//model/ModeSwitchEntry" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="modeGroup" lowerBound="1" eType="#//model/ModeGroup"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ModeSwitchEntry">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="graphEntries" upperBound="-1" eType="#//model/GraphEntryBase" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="isDefault" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="mode" lowerBound="1" eType="#//model/Mode"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ModeSwitchPoint" eSuperTypes="#//model/CallSequenceItem">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="mode" lowerBound="1" eType="#//model/Mode"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Partition" eSuperTypes="#//model/ModelObject"/>
+    <eClassifiers xsi:type="ecore:EClass" name="PeriphAFDXEthernet" eSuperTypes="#//model/Peripheral">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="name" value="AFDX Ethernet Controller"/>
+        </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="logEnabled" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="networkId" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="partitionId" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="interfaceId1" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="mac1" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" defaultValueLiteral="00:00:00:00:00:00"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="interfaceId2" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="mac2" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" defaultValueLiteral="00:00:00:00:00:00"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="afdxPorts" upperBound="-1" eType="#//model/AFDXPort" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Peripheral" eSuperTypes="#//model/ModelObject #//model/TraceObject">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="typeId" lowerBound="1" eType="#//model/PeripheralType" defaultValueLiteral="IrqSource"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="addressRange" ordered="false" lowerBound="1" eType="#//model/AddressRange" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="ports" ordered="false" lowerBound="1" upperBound="-1" eType="#//model/PeripheralPort" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="exactness" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EIntegerObject" defaultValueLiteral="10"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="events" upperBound="-1" eType="#//model/TraceEvent" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="PeripheralPort" eSuperTypes="#//model/ModelObject #//model/TraceObject #//model/LoadResource">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" ordered="false" lowerBound="1" eType="#//model/PeripheralPortType" defaultValueLiteral="Out"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="index" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="-1"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="connection" eType="#//model/PeripheralPortConnection" eOpposite="#//model/PeripheralPortConnection/ports"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="PeripheralPortConnection" eSuperTypes="#//model/ModelObject">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="ports" ordered="false" upperBound="-1" eType="#//model/PeripheralPort" eOpposite="#//model/PeripheralPort/connection"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="PeripheralPortType">
+      <eLiterals name="Undefined" value="-1"/>
+      <eLiterals name="Irq"/>
+      <eLiterals name="Out" value="1"/>
+      <eLiterals name="In" value="2"/>
+      <eLiterals name="Inout" value="3"/>
+      <eLiterals name="Master" value="4"/>
+      <eLiterals name="Slave" value="5"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="PeripheralType">
+      <eLiterals name="IrqSource"/>
+      <eLiterals name="SimpleInput" value="1"/>
+      <eLiterals name="SimpleOutput" value="2"/>
+      <eLiterals name="Uart" value="3"/>
+      <eLiterals name="Mfr4200" value="4" literal="Mfr4200"/>
+      <eLiterals name="SimpleTimer" value="5"/>
+      <eLiterals name="SlaveSpi" value="6"/>
+      <eLiterals name="Console" value="7"/>
+      <eLiterals name="SimpleCan" value="8"/>
+      <eLiterals name="RenesasM16C" value="9"/>
+      <eLiterals name="CanBus" value="10"/>
+      <eLiterals name="FlexRayBus" value="11"/>
+      <eLiterals name="MasterSpi" value="12"/>
+      <eLiterals name="RestBus" value="13"/>
+      <eLiterals name="RestBusCan" value="14"/>
+      <eLiterals name="RestBusFlexRay" value="15"/>
+      <eLiterals name="NECV850EPHO3" value="16" literal="NECV850EPHO3"/>
+      <eLiterals name="NECV850EPHO3Can" value="17" literal="NECV850EPHO3Can"/>
+      <eLiterals name="BoschERay" value="18" literal="BoschERay"/>
+      <eLiterals name="NECV850EPHO3ERay" value="19" literal="NECV850EPHO3ERay"/>
+      <eLiterals name="SimpleCANIndexed" value="20" literal="SimpleCANIndexed"/>
+      <eLiterals name="GenericEthernet" value="21" literal="GenericEthernet"/>
+      <eLiterals name="GenericEthernetSwitch" value="22" literal="GenericEthernetSwitch"/>
+      <eLiterals name="SimpleLIN" value="23" literal="SimpleLIN"/>
+      <eLiterals name="LINBus" value="24" literal="LINBus"/>
+      <eLiterals name="SimpleFlexRay" value="25" literal="SimpleFlexRay"/>
+      <eLiterals name="AFDXEthernet" value="26" literal="AFDXEthernet"/>
+      <eLiterals name="GenericIO" value="27" literal="GenericIO"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="PeriphSimpleCAN" eSuperTypes="#//model/Peripheral">
+      <eAnnotations source="http://www.eclipse.org/emf/2002/GenModel">
+        <details key="name" value="CAN Communication Controller"/>
+        </eAnnotations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="bufferStrategy" lowerBound="1" eType="#//model/BufferStrategy" defaultValueLiteral="SlotOrder"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="PeriphSimpleCANBus" eSuperTypes="#//model/Peripheral">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="logEnabled" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="speed" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="250000"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="PeriphSimpleCANIndexed" eSuperTypes="#//model/PeriphSimpleCAN">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="numberOfBuffers" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="256"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ProbabilitySwitch" eSuperTypes="#//model/GraphEntryBase">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="entries" upperBound="-1" eType="#//model/ProbabilitySwitchEntry" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ProbabilitySwitchEntry">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="probability" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble" defaultValueLiteral="1"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="graphEntries" upperBound="-1" eType="#//model/GraphEntryBase" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Process" eSuperTypes="#//model/Schedulable #//model/EventChainForwarder #//model/StimulationTarget">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="activationLimit" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="1"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="activeAtBoot" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="callGraph" eType="#//model/CallGraph" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="deadline" eType="#//model/Time" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="extendedTask" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="traceEvents" upperBound="-1" eType="#//model/TraceEvent" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="idleTask" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="isr" ordered="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="preemptable" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="stackLimit" ordered="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="1024"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="triggeredBy" ordered="false" upperBound="-1" eType="#//model/InterruptPort" eOpposite="#//model/InterruptPort/isrs"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ResourceConsumption" eSuperTypes="#//model/CallSequenceItem">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="dataAccess" upperBound="-1" eType="#//model/memory/DataAccess" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="entryFunction" eType="#//model/SourceFunction"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="stackUsage" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="timeDistribution" lowerBound="1" eType="#//model/TimeDistribution" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="useEntryFunction" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ResumeAllInterrupts" eSuperTypes="#//model/CallSequenceItem"/>
+    <eClassifiers xsi:type="ecore:EClass" name="RtosConfig" eSuperTypes="#//model/ModelObject">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="schedulables" ordered="false" upperBound="-1" eType="#//model/Schedulable" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="semaphores" ordered="false" upperBound="-1" eType="#//model/Semaphore" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="spinlocks" ordered="false" upperBound="-1" eType="#//model/Spinlock" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="events" upperBound="-1" eType="#//model/Event" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="RtosModel">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+        </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="reloadRtosModel" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="version" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="rtosProperties" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="returnType" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="library" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="header" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="nameSpace" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="userHeader" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="stateNames" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="apiPrefix" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="rtosApiType" eType="#//model/RtosApiType" defaultValueLiteral="None"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="RtosApiType">
+      <eLiterals name="None"/>
+      <eLiterals name="Clib" value="1"/>
+      <eLiterals name="Osek" value="2"/>
+      <eLiterals name="Autosar" value="3"/>
+      <eLiterals name="Threadx" value="4"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="RtosProperty">
+      <eLiterals name="Bare"/>
+      <eLiterals name="ExplicitTaskDefinition" value="1"/>
+      <eLiterals name="SuspendWhenTaskReturns" value="2"/>
+      <eLiterals name="TaskReturnForbidden" value="4"/>
+      <eLiterals name="ResourceNeedsInit" value="8"/>
+      <eLiterals name="AutosarRTEEvents" value="16"/>
+      <eLiterals name="ExtendedTask" value="32"/>
+      <eLiterals name="Osek" value="15"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Schedulable" abstract="true" eSuperTypes="#//model/ModelObject #//model/TraceObject">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="cpuCores" upperBound="-1" eType="#//model/CpuCore"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="parentScheduler" eType="#//model/Scheduler" eOpposite="#//model/Scheduler/schedulables"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="priority" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Scheduler" eSuperTypes="#//model/Schedulable">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="schedulables" ordered="false" upperBound="-1" eType="#//model/Schedulable" containment="true" eOpposite="#//model/Schedulable/parentScheduler"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" ordered="false" lowerBound="1" eType="#//model/SchedulerType" defaultValueLiteral="Preemptive"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="strategy" ordered="false" lowerBound="1" eType="#//model/SchedulerStrategy" defaultValueLiteral="FixedPriority"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="timeSlice" lowerBound="1" eType="#//model/Time" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="tdmaSchedule" upperBound="-1" eType="#//model/SchedulingEntry" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="period" lowerBound="1" eType="#//model/Time" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="synchronized" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="maxRetard" lowerBound="1" eType="#//model/Time" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="maxAdvance" lowerBound="1" eType="#//model/Time" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="syncSource" eType="#//model/ModelObject"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="cycleStartProcess" eType="#//model/Process"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="prioritiesPropagated" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="priorityInversed" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="SchedulerStrategy">
+      <eLiterals name="NONE"/>
+      <eLiterals name="FCFS" value="1"/>
+      <eLiterals name="FixedPriority" value="2"/>
+      <eLiterals name="RoundRobin" value="3"/>
+      <eLiterals name="TDMA" value="4"/>
+      <eLiterals name="CAN" value="5"/>
+      <eLiterals name="OSEK" value="6"/>
+      <eLiterals name="BusECU" value="7"/>
+      <eLiterals name="CANECU" value="8"/>
+      <eLiterals name="AutosarTask" value="9"/>
+      <eLiterals name="Triggered" value="10"/>
+      <eLiterals name="Offset" value="11"/>
+      <eLiterals name="CANMsg" value="12" literal="CanMsg"/>
+      <eLiterals name="LCFS" value="13"/>
+      <eLiterals name="FlexRayECU" value="14"/>
+      <eLiterals name="EthernetECU" value="15"/>
+      <eLiterals name="LINECU" value="16"/>
+      <eLiterals name="FlexRayMsg" value="17"/>
+      <eLiterals name="EthernetMsg" value="18"/>
+      <eLiterals name="LINMsg" value="19"/>
+      <eLiterals name="FlexRay" value="20"/>
+      <eLiterals name="Ethernet" value="21"/>
+      <eLiterals name="LIN" value="22"/>
+      <eLiterals name="FlexRayDynamic" value="23"/>
+      <eLiterals name="EthernetStepOfBusMsg" value="24"/>
+      <eLiterals name="FixedISRPriority" value="25" literal="FixedIsrPriority"/>
+      <eLiterals name="EDF" value="26"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="SchedulerType">
+      <eLiterals name="Preemptive"/>
+      <eLiterals name="Cooperative" value="1"/>
+      <eLiterals name="TimeSlice" value="2"/>
+      <eLiterals name="RunToCompletion" value="3"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SchedulingEntry">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="item" lowerBound="1" eType="#//model/Schedulable"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="slotLength" lowerBound="1" eType="#//model/Time" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SchedulePoint" eSuperTypes="#//model/CallSequenceItem"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Semaphore" eSuperTypes="#//model/ModelObject">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="initialValue" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="1"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="maxValue" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="1"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SemaphoreAccess" eSuperTypes="#//model/CallSequenceItem">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="semaphore" lowerBound="1" eType="#//model/Semaphore"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//model/SemaphoreAccessType"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="SemaphoreAccessType">
+      <eLiterals name="Request"/>
+      <eLiterals name="Exclusive" value="1">
+        </eLiterals>
+      <eLiterals name="Release" value="2"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SendMessage" eSuperTypes="#//model/ActivationAction">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="message" lowerBound="1" eType="#//model/BusMessage"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SetEvent" eSuperTypes="#//model/ActivationAction">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="events" lowerBound="1" upperBound="-1" eType="#//model/Event">
+        </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//model/Process">
+        </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="forAll" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false">
+        </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="isReset" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false">
+        </eStructuralFeatures>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SetGuard" eSuperTypes="#//model/ActivationAction">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="functionCall" lowerBound="1" eType="#//model/FunctionCall" eOpposite="#//model/FunctionCall/guards"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SourceFunction" eSuperTypes="#//model/ModelObject #//model/TraceObject">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="traceEvents" upperBound="-1" eType="#//model/TraceEvent" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SpecSettings">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="includes" ordered="false" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" defaultValueLiteral=" "/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="macros" ordered="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" defaultValueLiteral=" "/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="prependSettings" ordered="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Spinlock" eSuperTypes="#//model/ModelObject #//model/TraceObject"/>
+    <eClassifiers xsi:type="ecore:EClass" name="SpinlockOperation" eSuperTypes="#//model/CallSequenceItem">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="operation" eType="#//model/SpinlockOperationType" defaultValueLiteral="Acquire"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="spinlock" eType="#//model/Spinlock"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="SpinlockOperationType">
+      <eLiterals name="Acquire"/>
+      <eLiterals name="Release" value="1"/>
+      <eLiterals name="TryAcquire" value="2"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="StimulationTarget" abstract="true">
+      <eOperations name="stimulate"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SuspendAllInterrupts" eSuperTypes="#//model/CallSequenceItem"/>
+    <eClassifiers xsi:type="ecore:EClass" name="System" abstract="true" eSuperTypes="#//model/ModelObject">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="translationUnits" upperBound="-1" eType="#//model/TranslationUnit" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="rtosModel" eType="#//model/RtosModel" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="compilerSettings" eType="#//model/CompilerSettings" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="specSettings" eType="#//model/SpecSettings" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="modeGroups" upperBound="-1" eType="#//model/ModeGroup" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="components" upperBound="-1" eType="#//model/Component" containment="true">
+        </eStructuralFeatures>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ThreadXSystem" eSuperTypes="#//model/System"/>
+    <eClassifiers xsi:type="ecore:EClass" name="Time">
+      <eOperations name="denormalize">
+        </eOperations>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" ordered="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong" defaultValueLiteral="0"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="unit" ordered="false" lowerBound="1" eType="#//model/TimeUnit" defaultValueLiteral="ps"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="TimeDistribution">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="bcet" eType="#//model/Time" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="wcet" eType="#//model/Time" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="mean" ordered="false" eType="#//model/Time" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="sigma" ordered="false" eType="#//model/Time" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="discreteDistribution" ordered="false" upperBound="-1" eType="#//model/DiscreteDistributionEntry" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//model/TimeDistributionType" defaultValueLiteral="Wcet"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="TimeDistributionType">
+      <eLiterals name="Wcet" literal="Wcet"/>
+      <eLiterals name="Bcet" value="1" literal="Bcet"/>
+      <eLiterals name="Uniform" value="2"/>
+      <eLiterals name="Normal" value="3"/>
+      <eLiterals name="Mean" value="4"/>
+      <eLiterals name="Discrete" value="5" literal="Discrete"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="TimeUnit">
+      <eLiterals name="s"/>
+      <eLiterals name="ms" value="1"/>
+      <eLiterals name="us" value="2"/>
+      <eLiterals name="ns" value="3"/>
+      <eLiterals name="ps" value="4"/>
+      <eLiterals name="fs" value="5"/>
+      <eLiterals name="T" value="6"/>
+      <eLiterals name="NaN" value="7"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="TraceEvent" eSuperTypes="#//model/ModelObject #//model/TraceObject">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//model/TraceEventType" defaultValueLiteral="Entry"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="TraceEventCondition">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="traceEvent" eType="#//model/TraceEvent"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="process" eType="#//model/Process"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="valueConstraint" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="TraceEventType">
+      <eLiterals name="Activate"/>
+      <eLiterals name="Start" value="1"/>
+      <eLiterals name="Terminate" value="2"/>
+      <eLiterals name="Block" value="3"/>
+      <eLiterals name="Release" value="4"/>
+      <eLiterals name="Restart" value="5"/>
+      <eLiterals name="Entry" value="6"/>
+      <eLiterals name="Exit" value="7"/>
+      <eLiterals name="UserCode" value="8"/>
+      <eLiterals name="UserCodeParam" value="9"/>
+      <eLiterals name="EventChain" value="10"/>
+      <eLiterals name="DataFlowChain" value="11"/>
+      <eLiterals name="ActivationFlowChain" value="12"/>
+      <eLiterals name="FrameBegin" value="13"/>
+      <eLiterals name="FrameEnd" value="14"/>
+      <eLiterals name="FrameAbort" value="15"/>
+      <eLiterals name="CycleStart" value="16"/>
+      <eLiterals name="DynamicSegment" value="17"/>
+      <eLiterals name="NetworkIdleTime" value="18"/>
+      <eLiterals name="TransferCounter" value="19"/>
+      <eLiterals name="FrameDrop" value="20"/>
+      <eLiterals name="TimerCreate" value="21"/>
+      <eLiterals name="TimerDelete" value="22"/>
+      <eLiterals name="TimerStart" value="23"/>
+      <eLiterals name="TimerStop" value="24"/>
+      <eLiterals name="TimerExpire" value="25"/>
+      <eLiterals name="TimerExpRest" value="26"/>
+      <eLiterals name="TimerEndMark" value="27"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="TraceObject" abstract="true">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="objectId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0" unsettable="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="TranslationUnit" eSuperTypes="#//model/ModelObject">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="sourceFunctions" ordered="false" upperBound="-1" eType="#//model/SourceFunction" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="specSettings" ordered="false" eType="#//model/SpecSettings" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="TriggerToken"/>
+    <eClassifiers xsi:type="ecore:EClass" name="UserCodeEventChain" eSuperTypes="#//model/EventChain">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="stepNames" upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+        </eStructuralFeatures>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="VariableReadAccess" eSuperTypes="#//model/CallSequenceItem">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="connection" eType="#//model/DataFlowConnection" eOpposite="#//model/DataFlowConnection/requesters"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="dataAccess" eType="#//model/memory/ExplicitDataAccess" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="isBuffered" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="connectionDelay" eType="#//model/TimeDistribution" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//model/VariableReadAccessType" defaultValueLiteral="Generic"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="number" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="1">
+        </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="index" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0">
+        </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="policy" lowerBound="1" eType="#//model/VariableReadAccessPolicy" defaultValueLiteral="FIFO"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="isTake" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true">
+        </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="lowerBound" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="dataMustBeNew" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false">
+        </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="receivePercentage" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="100">
+        </eStructuralFeatures>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="VariableReadAccessPolicy">
+      <eLiterals name="FIFO"/>
+      <eLiterals name="LIFO" value="1"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="VariableReadAccessType">
+      <eLiterals name="Generic"/>
+      <eLiterals name="LocalRead" value="1"/>
+      <eLiterals name="DataRead" value="2"/>
+      <eLiterals name="DataReceive" value="3"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="VariableWriteAccess" eSuperTypes="#//model/CallSequenceItem">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="connection" eType="#//model/DataFlowConnection" eOpposite="#//model/DataFlowConnection/provider"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="dataAccess" eType="#//model/memory/ExplicitDataAccess" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="isBuffered" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" lowerBound="1" eType="#//model/VariableWriteAccessType" defaultValueLiteral="Generic"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="number" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="1">
+        </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="policy" lowerBound="1" eType="#//model/VariableWriteAccessPolicy" defaultValueLiteral="OverwriteOldest"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="VariableWriteAccessPolicy">
+      <eLiterals name="ErrorDrop"/>
+      <eLiterals name="SilentDrop" value="1"/>
+      <eLiterals name="OverwriteOldest" value="2"/>
+      <eLiterals name="OverwriteNewest" value="3"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="VariableWriteAccessType">
+      <eLiterals name="Generic"/>
+      <eLiterals name="LocalWrite" value="1"/>
+      <eLiterals name="DataWrite" value="2"/>
+      <eLiterals name="DataSend" value="3"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="WaitEvent" eSuperTypes="#//model/CallSequenceItem">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="events" lowerBound="1" upperBound="-1" eType="#//model/Event">
+        </eStructuralFeatures>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="timeout" eType="#//model/Time" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="forReset" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false">
+        </eStructuralFeatures>
+    </eClassifiers>
+    <eSubpackages name="autosar" nsURI="http://inchron.com/realtime/root/2.98.00/model/autosar" nsPrefix="autosar">
+      <eClassifiers xsi:type="ecore:EClass" name="ARSystem" eSuperTypes="#//model/System">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="osConfig" eType="#//model/autosar/OsConfig" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="isOsek" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="ClearEvent" eSuperTypes="#//model/CallSequenceItem">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="events" lowerBound="1" upperBound="-1" eType="#//model/autosar/OsEvent"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="Operation" eSuperTypes="#//model/ModelObject"/>
+      <eClassifiers xsi:type="ecore:EClass" name="OsAlarm" eSuperTypes="#//model/ModelObject">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="action" eType="#//model/autosar/OsAlarmAction" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="autostartAppMode" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="autostartCycleTime" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="autostartAlarmTime" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="autostart" ordered="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="counter" lowerBound="1" eType="#//model/autosar/OsCounter"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="OsAlarmAction" eSuperTypes="#//model/ModelObject">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" ordered="false" lowerBound="1" eType="#//model/autosar/OsAlarmActionType" defaultValueLiteral="ActivateTask"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="task" eType="#//model/autosar/OsTask"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="event" eType="#//model/autosar/OsEvent"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="callback" eType="#//model/SourceFunction"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="maxAdvance" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong" defaultValueLiteral="1"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="maxRetard" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong" defaultValueLiteral="1"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EEnum" name="OsAlarmActionType">
+        <eLiterals name="ActivateTask" literal="ActivateTask"/>
+        <eLiterals name="SetEvent" value="1"/>
+        <eLiterals name="Callback" value="2"/>
+        <eLiterals name="AdjustExpiryPoint" value="3"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="OsApplication" eSuperTypes="#//model/ModelObject">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="alarms" upperBound="-1" eType="#//model/autosar/OsAlarm"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="counters" upperBound="-1" eType="#//model/autosar/OsCounter"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="cpuCore" eType="#//model/CpuCore"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="partition" eType="#//model/Partition"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="isrs" upperBound="-1" eType="#//model/autosar/OsIsr"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="scheduleTables" upperBound="-1" eType="#//model/autosar/OsScheduleTable"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="tasks" upperBound="-1" eType="#//model/autosar/OsTask"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="isTrusted" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="isTrustedWithProtection" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="OsConfig" eSuperTypes="#//model/ModelObject">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="alarms" upperBound="-1" eType="#//model/autosar/OsAlarm" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="applications" upperBound="-1" eType="#//model/autosar/OsApplication" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="counters" upperBound="-1" eType="#//model/autosar/OsCounter" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="events" upperBound="-1" eType="#//model/autosar/OsEvent" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="isrs" upperBound="-1" eType="#//model/autosar/OsIsr" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="resources" upperBound="-1" eType="#//model/autosar/OsResource" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="scheduleTables" upperBound="-1" eType="#//model/autosar/OsScheduleTable" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="spinlocks" upperBound="-1" eType="#//model/autosar/OsSpinlock" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="tasks" upperBound="-1" eType="#//model/autosar/OsTask" containment="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="OsCounter" eSuperTypes="#//model/ModelObject">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="clock" lowerBound="1" eType="#//model/Clock" eOpposite="#//model/Clock/usingCounters"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="delay" ordered="false" lowerBound="1" eType="#//model/Time" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="granularity" ordered="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="hardware" ordered="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="mincycle" ordered="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="range" ordered="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="referenceTicks" ordered="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="OsEvent" eSuperTypes="#//model/Event">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="mask" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="maskAuto" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="OsExpiryPoint" eSuperTypes="#//model/ModelObject">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="offset" ordered="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="actions" upperBound="-1" eType="#//model/autosar/OsAlarmAction" containment="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="OsIsr" eSuperTypes="#//model/Process">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="resources" upperBound="-1" eType="#//model/autosar/OsResource"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//model/autosar/OsIsrType" defaultValueLiteral="Category2"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EEnum" name="OsIsrType">
+        <eLiterals name="Category1"/>
+        <eLiterals name="Category2" value="1"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="OsResource" eSuperTypes="#//model/ModelObject">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="property" lowerBound="1" eType="#//model/autosar/OsResourceType" defaultValueLiteral="Standard"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EEnum" name="OsResourceType">
+        <eLiterals name="Standard"/>
+        <eLiterals name="Internal" value="1"/>
+        <eLiterals name="Linked" value="2"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="OsScheduleTable" eSuperTypes="#//model/ModelObject">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="autostart" ordered="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="counter" eType="#//model/autosar/OsCounter"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="duration" ordered="false" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="expiryPoints" upperBound="-1" eType="#//model/autosar/OsExpiryPoint" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="repeating" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="startType" ordered="false" lowerBound="1" eType="#//model/autosar/OsScheduleTableStartType" defaultValueLiteral="Absolute"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EEnum" name="OsScheduleTableStartType">
+        <eLiterals name="Absolute" literal="Absolute"/>
+        <eLiterals name="Relative" value="1" literal="Relative"/>
+        <eLiterals name="Synchronized" value="2" literal="Synchronized"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="OsSpinlock" eSuperTypes="#//model/Spinlock">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="method" eType="#//model/autosar/OsSpinlockLockMethod" defaultValueLiteral="LockAllInterrupts"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="successor" eType="#//model/autosar/OsSpinlock"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EEnum" name="OsSpinlockLockMethod">
+        <eLiterals name="LockNothing"/>
+        <eLiterals name="LockAllInterrupts" value="1"/>
+        <eLiterals name="LockCat2Interrupts" value="2"/>
+        <eLiterals name="LockWithResScheduler" value="3"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="OsTask" eSuperTypes="#//model/Process">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="events" upperBound="-1" eType="#//model/autosar/OsEvent"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="resources" upperBound="-1" eType="#//model/autosar/OsResource"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="ResumeOSInterrupts" eSuperTypes="#//model/CallSequenceItem"/>
+      <eClassifiers xsi:type="ecore:EClass" name="Runnable" eSuperTypes="#//model/Function">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="canBeInvokedConcurrently" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="disabledInMode" eType="#//model/Mode"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="ServerCall" eSuperTypes="#//model/CallSequenceItem">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="invokedOperation" lowerBound="1" eType="#//model/autosar/Operation"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="SuspendOSInterrupts" eSuperTypes="#//model/CallSequenceItem"/>
+      <eClassifiers xsi:type="ecore:EClass" name="SwComponent" eSuperTypes="#//model/Component">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="operations" upperBound="-1" eType="#//model/autosar/Operation" containment="true"/>
+      </eClassifiers>
+    </eSubpackages>
+    <eSubpackages name="memory" nsURI="http://inchron.com/realtime/root/2.98.00/model/memory" nsPrefix="memory">
+      <eClassifiers xsi:type="ecore:EClass" name="ResponderPort" eSuperTypes="#//model/ModelObject #//model/TraceObject">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="readAccessPattern" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" defaultValueLiteral="1-1-1-1"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="writeAccessPattern" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" defaultValueLiteral="1-1-1-1"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="initiator" eType="#//model/memory/InitiatorPort" eOpposite="#//model/memory/InitiatorPort/responder"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="InitiatorPort" eSuperTypes="#//model/ModelObject">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="priority" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="responder" eType="#//model/memory/ResponderPort" eOpposite="#//model/memory/ResponderPort/initiator"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="QosEntry">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="priority" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="minimumBandwidth" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="inPort" lowerBound="1" eType="#//model/memory/ResponderPort"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="outPort" lowerBound="1" eType="#//model/memory/InitiatorPort"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="Interconnect" eSuperTypes="#//model/ModelObject">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="bitWidth" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="32"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="schedulingPolicy" eType="#//model/memory/InterconnectScheduling" defaultValueLiteral="Priority"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="connectedSlaves" upperBound="-1" eType="#//model/memory/InitiatorPort" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="connectedMasters" upperBound="-1" eType="#//model/memory/ResponderPort" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="clock" lowerBound="1" eType="#//model/Clock" eOpposite="#//model/Clock/usingInterconnects"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="prescaler" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble" defaultValueLiteral="1.0"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="qosEntries" upperBound="-1" eType="#//model/memory/QosEntry" containment="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="Memory" eSuperTypes="#//model/ModelObject">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="bitWidth" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="32"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="size" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="262144"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//model/memory/MemoryType" defaultValueLiteral="SRAM"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="clock" lowerBound="1" eType="#//model/Clock" eOpposite="#//model/Clock/usingMemories"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="prescaler" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble" defaultValueLiteral="1.0"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="connectedMaster" eType="#//model/memory/ResponderPort" containment="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EEnum" name="InterconnectScheduling">
+        <eLiterals name="Priority"/>
+        <eLiterals name="RoundRobin" value="1"/>
+        <eLiterals name="FCFS" value="2"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EEnum" name="MemoryType">
+        <eLiterals name="SRAM"/>
+        <eLiterals name="DRAM" value="1"/>
+        <eLiterals name="Flash" value="2"/>
+        <eLiterals name="Cache" value="3"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="DataObject" eSuperTypes="#//model/ModelObject">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="size" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="memory" eType="#//model/memory/Memory"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="DataAccess" abstract="true" eSuperTypes="#//model/TraceObject">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="accessType" lowerBound="1" eType="#//model/memory/DataAccessType" defaultValueLiteral="Read"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="startOffset" eType="#//model/Time" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="bandwidth" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="chunkSize" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="chunkPeriod" eType="#//model/Time" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="isAsynchroneous" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EEnum" name="DataAccessType">
+        <eLiterals name="Read"/>
+        <eLiterals name="Write" value="1"/>
+        <eLiterals name="ReadModifyWrite" value="2"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="ExplicitDataAccess" eSuperTypes="#//model/memory/DataAccess">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="dataObject" eType="#//model/memory/DataObject"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="RateBasedDataAccess" eSuperTypes="#//model/memory/DataAccess">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="memory" eType="#//model/memory/Memory"/>
+      </eClassifiers>
+    </eSubpackages>
+    <eSubpackages name="requirement" nsURI="http://inchron.com/realtime/root/2.98.00/model/requirement" nsPrefix="requirement">
+      <eClassifiers xsi:type="ecore:EClass" name="CallNestingRequirement" eSuperTypes="#//model/requirement/Requirement">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="limit" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="Evaluation">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="providedBy" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+          <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+            <details key="kind" value="content"/>
+          </eAnnotations>
+        </eStructuralFeatures>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="timeCreated" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="verdict" eType="#//model/requirement/Verdict" defaultValueLiteral="Unknown"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="EventChainBreakOffRequirement" eSuperTypes="#//model/requirement/Requirement">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="evaluateBreakOffAsSuccess" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="eventChain" eType="#//model/EventChain"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="ignoreLast" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="1"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="ignoreNonSequential" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="ignoreSkipped" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="requiredLastStep" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="EventChainJoinRequirement" eSuperTypes="#//model/requirement/Requirement">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="allowSameInstance" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="eventChain" eType="#//model/EventChain"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="EventChainMultipleProcessingRequirement" eSuperTypes="#//model/requirement/Requirement">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="eventChain" eType="#//model/EventChain"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="EventChainTimingRequirement" eSuperTypes="#//model/requirement/TimingRequirement">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="eventChain" eType="#//model/EventChain"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="fromStep" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="-1"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="instanceA" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="1"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="instanceB" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="strategy" eType="#//model/EventChainStrategy"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="toStep" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="-1"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="EventIEventJRequirement" eSuperTypes="#//model/requirement/TimingRequirement">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="endEvent" eType="#//model/TraceEvent"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="parameterA" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="1"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="parameterB" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="startEvent" eType="#//model/TraceEvent"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="EventNetExecTimeRequirement" eSuperTypes="#//model/requirement/TimingRequirement">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="end" eType="#//model/TraceEvent"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="process" eType="#//model/Process"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="start" eType="#//model/TraceEvent"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="EventTimingRequirement" eSuperTypes="#//model/requirement/TimingRequirement">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="trigger" eType="#//model/TraceEvent"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="start" lowerBound="1" eType="#//model/TraceEvent"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="stop" eType="#//model/TraceEvent"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="GroupOfRequirements" eSuperTypes="#//model/requirement/Requirement">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="requirements" upperBound="-1" eType="#//model/requirement/Requirement" containment="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="IllegalEventRequirement" eSuperTypes="#//model/requirement/Requirement">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="event" eType="#//model/TraceEvent"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="LoadRequirement" eSuperTypes="#//model/requirement/Requirement">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="granularity" eType="#//model/Time" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="limit" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat" defaultValueLiteral="80"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="loadResource" eType="#//model/LoadResource"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="prewarnMargin" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat" defaultValueLiteral="10"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="relationalOperator" eType="#//model/requirement/RelationalOperatorLeGe" defaultValueLiteral="le"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="steps" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="20"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="NetExecTimeRequirement" eSuperTypes="#//model/requirement/TimingRequirement">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="process" eType="#//model/Process"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EEnum" name="NetSlackTimeRequirementType">
+        <eLiterals name="Undefined"/>
+        <eLiterals name="Delta" value="1"/>
+        <eLiterals name="Event" value="2"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="NetSlackTimeRequirement" eSuperTypes="#//model/requirement/TimingRequirement">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="deadlineDelta" eType="#//model/Time" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="deadlineEvent" eType="#//model/TraceEvent"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="process" eType="#//model/Process"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//model/requirement/NetSlackTimeRequirementType"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="PeriodicEventRequirement" eSuperTypes="#//model/requirement/TimingRequirement">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="event" eType="#//model/TraceEvent"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="prewarnMarginCritical" eType="#//model/Time" containment="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="RecursionRequirement" eSuperTypes="#//model/requirement/Requirement">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="limit" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="Requirement" eSuperTypes="#//model/ModelObject">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="description" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+          <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+            <details key="kind" value="content"/>
+          </eAnnotations>
+        </eStructuralFeatures>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="etag" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="evaluate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="evaluations" upperBound="-1" eType="#//model/requirement/Evaluation" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="providedBy" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString">
+          <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+            <details key="kind" value="content"/>
+          </eAnnotations>
+        </eStructuralFeatures>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="show" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="true"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="url" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="ResponseTimeRequirement" eSuperTypes="#//model/requirement/TimingRequirement">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="process" eType="#//model/Process"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="RtosFailureRequirement" eSuperTypes="#//model/requirement/Requirement">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="enabledRTOSFailures" upperBound="-1" eType="#//model/requirement/RTOSFailure">
+          </eStructuralFeatures>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="blacklist" upperBound="-1" eType="#//model/Process"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EEnum" name="RelationalOperator">
+        <eLiterals name="lt"/>
+        <eLiterals name="le" value="1"/>
+        <eLiterals name="gt" value="2"/>
+        <eLiterals name="ge" value="3"/>
+        <eLiterals name="eq" value="4"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EEnum" name="RelationalOperatorLeGe">
+        <eLiterals name="le"/>
+        <eLiterals name="ge" value="1"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EEnum" name="RelationalOperatorLtLeGtGe">
+        <eLiterals name="lt"/>
+        <eLiterals name="le" value="1"/>
+        <eLiterals name="gt" value="2"/>
+        <eLiterals name="ge" value="3"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EEnum" name="RTOSFailure">
+        <eLiterals name="ReturnFromTaskForbidden"/>
+        <eLiterals name="ActivationLimitViolation" value="1"/>
+        <eLiterals name="MemoryAccessViolation" value="2"/>
+        <eLiterals name="DivisionByZero" value="3"/>
+        <eLiterals name="InvalidObject" value="4"/>
+        <eLiterals name="OsApiCallError" value="5"/>
+        <eLiterals name="IsrLost" value="6"/>
+        <eLiterals name="DeletedUsedObject" value="7"/>
+        <eLiterals name="TimerLost" value="8"/>
+        <eLiterals name="DeadlineViolation" value="9"/>
+        <eLiterals name="OsekResourceOrderWrong" value="10"/>
+        <eLiterals name="AssertFailed" value="11"/>
+        <eLiterals name="CxxPureVirtualCalled" value="12"/>
+        <eLiterals name="HeapCorruptionDetected" value="13"/>
+        <eLiterals name="ImportError" value="14"/>
+        <eLiterals name="ImportSourceError" value="15"/>
+        <eLiterals name="CanoeIFSreduced" value="16"/>
+        <eLiterals name="CanoeIFSviolated" value="17"/>
+        <eLiterals name="SpinlockOrderWrong" value="18"/>
+        <eLiterals name="MemoryWriteAccessViolation" value="19"/>
+        <eLiterals name="MemoryReadModifyWriteAccessViolation" value="20"/>
+        <eLiterals name="MemoryAddressMapViolation" value="21"/>
+        <eLiterals name="CanMessageDropped" value="22"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="TimingRequirement" eSuperTypes="#//model/requirement/Requirement">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="relationalOperator" eType="#//model/requirement/RelationalOperator"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="limit" eType="#//model/Time" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="prewarnMargin" eType="#//model/Time" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="relative" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EEnum" name="Verdict">
+        <eLiterals name="Unknown" value="-1" literal="Unknown"/>
+        <eLiterals name="Success" literal="Success"/>
+        <eLiterals name="Critical" value="1" literal="Critical"/>
+        <eLiterals name="Fail" value="2"/>
+      </eClassifiers>
+    </eSubpackages>
+    <eSubpackages name="stimulation" nsURI="http://inchron.com/realtime/root/2.98.00/model/stimulation" nsPrefix="stimulation">
+      <eClassifiers xsi:type="ecore:EClass" name="BurstPattern">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="maximumOccurrences" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="1"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="minimumInterArrivalTime" lowerBound="1" eType="#//model/Time" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="patternLength" lowerBound="1" eType="#//model/Time" containment="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="BurstPatternGenerator" eSuperTypes="#//model/stimulation/StimuliGenerator">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="burstPatternSettings" lowerBound="1" eType="#//model/stimulation/BurstPattern" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="iterations" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="-1"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="period" lowerBound="1" eType="#//model/Time" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="relative" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="startOffset" lowerBound="1" eType="#//model/Time" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="startOffsetVariation" lowerBound="1" eType="#//model/TimeDistribution" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="variation" lowerBound="1" eType="#//model/TimeDistribution" containment="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="CSVBasedGenerator" eSuperTypes="#//model/stimulation/StimuliGenerator">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="filename" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="CompositeScenario" eSuperTypes="#//model/stimulation/StimulationScenario">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="scenarios" upperBound="-1" eType="#//model/stimulation/StimulationScenario"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="DisturbanceFilter" eSuperTypes="#//model/stimulation/StimulationFilter">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="disturbanceProbability" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat" defaultValueLiteral="0"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="disturbanceSigma" eType="#//model/Time"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="lossProbability" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat" defaultValueLiteral="0"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="DriftFilter" eSuperTypes="#//model/stimulation/StimulationFilter">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="maximum" eType="#//model/Time"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="periodic" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="repeat" eType="#//model/Time"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="startTime" eType="#//model/Time"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="timeFrame" eType="#//model/Time"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="EliminationFilter" eSuperTypes="#//model/stimulation/StimulationFilter">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="sourceGenerator" eType="#//model/stimulation/StimuliGenerator">
+          </eStructuralFeatures>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="timeFrame" eType="#//model/TimeDistribution"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="InducedGenerator" eSuperTypes="#//model/stimulation/StimuliGenerator">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="delay" eType="#//model/TimeDistribution"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="offset" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0">
+          </eStructuralFeatures>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="period" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="1">
+          </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="InducedListBasedGenerator" eSuperTypes="#//model/stimulation/ListBasedGenerator">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="offset" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="0">
+          </eStructuralFeatures>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="period" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="1">
+          </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="ListBasedGenerator" eSuperTypes="#//model/stimulation/StimuliGenerator">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="entry" upperBound="-1" eType="#//model/Time"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="sourceGenerator" eType="#//model/stimulation/StimuliGenerator"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="RandomStimuliGenerator" eSuperTypes="#//model/stimulation/StimuliGenerator">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="iterations" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt" defaultValueLiteral="-1"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="minInterArrivalTime" lowerBound="1" eType="#//model/Time" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="period" lowerBound="1" eType="#//model/Time" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="relative" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="startOffset" lowerBound="1" eType="#//model/Time" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="startOffsetVariation" lowerBound="1" eType="#//model/TimeDistribution" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="variation" lowerBound="1" eType="#//model/TimeDistribution" containment="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="StimulationFilter" abstract="true" eSuperTypes="#//model/ModelObject"/>
+      <eClassifiers xsi:type="ecore:EClass" name="StimulationScenario" eSuperTypes="#//model/ModelObject">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="burstPattern" eType="#//model/stimulation/BurstPattern" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="generators" upperBound="-1" eType="#//model/stimulation/StimuliGenerator" containment="true"/>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="StimuliGenerator" abstract="true" eSuperTypes="#//model/ModelObject">
+        <eStructuralFeatures xsi:type="ecore:EReference" name="clock" lowerBound="1" eType="#//model/Clock" eOpposite="#//model/Clock/usingStimuliGenerators"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="filters" upperBound="-1" eType="#//model/stimulation/StimulationFilter" containment="true"/>
+        <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//model/StimulationTarget"/>
+      </eClassifiers>
+    </eSubpackages>
+  </eSubpackages>
+  <eSubpackages name="settings" nsURI="http://inchron.com/realtime/root/2.98.00/settings" nsPrefix="settings">
+    <eClassifiers xsi:type="ecore:EClass" name="Color">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="uri" lowerBound="1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString" defaultValueLiteral="color://rgb/128/128/128"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ColorEntry">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="object" eType="#//model/ModelObject"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="color" lowerBound="1" eType="#//settings/Color" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ColorEntryContainer">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="object" eType="#//model/ModelObject"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="color" lowerBound="1" upperBound="-1" eType="#//settings/Color" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Cursor">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="position" eType="#//model/Time" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="master" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="DiagramSettings"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ModelSettings">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="colors" upperBound="-1" eType="#//settings/ColorEntry" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="colorsByInstance" upperBound="-1" eType="#//settings/ColorEntryContainer"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Settings">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="model" lowerBound="1" eType="#//settings/ModelSettings" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="tool" lowerBound="1" eType="#//settings/ToolSettings" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="views" upperBound="-1" eType="#//settings/ViewSettings" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ToolSettings"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ViewSettings">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="diagrams" upperBound="-1" eType="#//settings/DiagramSettings" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="horizontalLabels" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean" defaultValueLiteral="false"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="cursors" upperBound="-1" eType="#//settings/Cursor" containment="true"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="results" nsURI="http://inchron.com/realtime/root/2.98.00/results" nsPrefix="results"/>
+</ecore:EPackage>
